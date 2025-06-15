@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>تحليل المشاعر العربية</title>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Ubuntu:wght@300;400;500;700&display=swap" rel="stylesheet" />
+    <!-- Vendor CSS Files -->
+    <link href="{{ url_for('static', filename='assets/vendor/bootstrap/css/bootstrap.css') }}" rel="stylesheet" />
+    <link href="{{ url_for('static', filename='assets/vendor/bootstrap-icons/bootstrap-icons.css') }}" rel="stylesheet" />
+    <!-- Main CSS File -->
+    <link href="{{ url_for('static', filename='assets/css/main.css') }}" rel="stylesheet" />
+
+    <link href="{{ url_for('static', filename='styles.css') }}" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+      body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f5f7fa;
+      }
+      .btn-primary {
+        background-color: #7096d1 !important;
+        border-color: #7096d1 !important;
+      }
+      .btn-primary:hover {
+        background-color: #6082b6 !important;
+        border-color: #6082b6 !important;
+      }
+      .scrollable-table {
+        max-height: 300px;
+        overflow-y: auto;
+      }
+      #reportSection {
+        background-color: #7096d1;
+        color: #fff;
+        padding: 1rem;
+        border-radius: 0.25rem;
+      }
+    </style>
+  </head>
+  <body class="index-page">
+    <header id="header" class="header d-flex align-items-center sticky-top">
+      <div class="container-fluid container-xl position-relative d-flex align-items-center">
+        <a href="{{ url_for('home') }}" class="logo d-flex align-items-center ms-auto"><h1 class="sitename" style="text-align: right;">بَوْح</h1></a>
+        <nav id="navmenu" class="navmenu">
+          <ul>
+            <li>
+              <a href="{{ url_for('home') }}">الرئيسية</a>
+            </li>
+            <li>
+              <a href="#about">من نحن</a>
+            </li>
+            <li>
+              <a href="#services">خدماتنا</a>
+            </li>
+            <li>
+              <a href="{{ url_for('index') }}">التحليل</a>
+            </li>
+            <li>
+              <a href="#team">فريق العمل</a>
+            </li>
+          </ul>
+        </nav>
+        <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+
+        <!-- زر بوت المحادثة -->
+        <a class="btn-getstarted" href="{{ url_for('chat') }}">بوت المحادثة <i class="fas fa-robot"></i></a>
+
+        <!-- سهم العودة للوراء -->
+        <a href="javascript:history.back()" class="btn-back"><i class="bi bi-arrow-left-circle"></i></a>
+      </div>
+    </header>
+    <main class="container py-4">
+      <!-- نموذج جلب التعليقات -->
+      <div class="card shadow-sm mb-4">
+        <div class="card-header bg-white">
+          <h5 class="mb-0">جلب تعليقات المنشور</h5>
+        </div>
+        <div class="card-body">
+          <form id="fetchForm">
+            <div class="mb-3">
+              <label for="token" class="form-label">Access Token</label>
+              <input type="password" class="form-control" id="token" placeholder="أدخل التوكن" required />
+            </div>
+            <div class="mb-3">
+              <label for="postUrl" class="form-label">رابط المنشور</label>
+
+              <input type="url" class="form-control text-start" id="postUrl" placeholder="https://facebook.com/..." dir="ltr" required />
+            </div>
+            <!-- زر الانتقال لصفحة الفيديو -->
+            <a href="{{ url_for('vid_face') }}" class="btn btn-secondary">مشاهدة الفيديو التوضيحي</a>
+            <button type="submit" class="btn btn-primary">جلب التعليقات</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- قسم النتائج -->
+      <div id="resultsSection" class="d-none">
+        <h5 class="mb-2">التعليقات المُستخرجة</h5>
+        <div class="table-responsive scrollable-table mb-4">
+          <table class="table table-bordered table-hover text-center mb-0">
+            <thead class="table-light">
+              <tr>
+                <th>النص</th>
+                <th>وقت الإنشاء</th>
+                <th>المعرف</th>
+                <th>التحليل</th>
+              </tr>
+            </thead>
+            <tbody id="commentsTableBody"></tbody>
+          </table>
+        </div>
+
+        <!-- تقرير ومخطط -->
+        <div class="row gy-4">
+          <div class="col-md-6">
+            <div class="card">
+              <div class="card-header bg-primary text-white">
+                <h6 class="mb-0">تقرير مفصّل عن التعليقات</h6>
+              </div>
+              <div class="card-body" id="reportSection"></div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <canvas id="sentimentChart"></canvas>
+          </div>
+        </div>
+
+        <div class="mt-3">
+          <button id="exportCsv" class="btn btn-primary">تصدير إلى CSV</button>
+          <button id="exportReport" class="btn btn-primary ms-2">تصدير التقرير</button>
+        </div>
+      </div>
+    </main>
+
+    <!-- مكتبات JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+      const fetchForm = document.getElementById('fetchForm')
+      const resultsSection = document.getElementById('resultsSection')
+      const commentsTableBody = document.getElementById('commentsTableBody')
+      const exportCsvBtn = document.getElementById('exportCsv')
+      const exportReportBtn = document.getElementById('exportReport')
+      const reportSection = document.getElementById('reportSection')
+      const ctx = document.getElementById('sentimentChart').getContext('2d')
+      let chart
+      
+      fetchForm.addEventListener('submit', async (e) => {
+        e.preventDefault()
+      
+        // تحضير الزر والحقلين
+        const btn = fetchForm.querySelector('button')
+        const token = document.getElementById('token').value.trim()
+        const postUrl = document.getElementById('postUrl').value.trim()
+        btn.disabled = true
+        btn.textContent = 'جاري التحميل…'
+      
+        try {
+          const resp = await fetch('/api/comments', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ token, postUrl })
+          })
+      
+          // 1) فكّ JSON
+          const result = await resp.json()
+      
+          // 2) إذا الحالة ليست OK، أظهر الخطأ وارجع
+          if (!resp.ok) {
+            const msg = result.error || 'حدث خطأ غير متوقع'
+            alert(`خطأ من الخادم: ${msg}`)
+            return
+          }
+      
+          // 3) أضمن أن comments مصفوفة (افتراضيًا []) ثم استخدمها
+          const comments = Array.isArray(result.comments) ? result.comments : []
+          if (comments.length === 0) {
+            alert('لم يتم استرجاع أي تعليقات.')
+            return
+          }
+      
+          // 4) إفراغ الجدول ثم ملؤه
+          commentsTableBody.innerHTML = ''
+          comments.forEach((c) => {
+            const text = c.comment_text || ''
+            const date = c.comment_date ? new Date(c.comment_date).toLocaleString('ar-EG') : ''
+            const id = c.comment_id || c.id || ''
+            const tr = document.createElement('tr')
+            tr.innerHTML = `
+                        <td>${text}</td>
+                        <td>${date}</td>
+                        <td>${id}</td>
+                        <td>${c.emoji || ''}</td>
+                      `
+            commentsTableBody.appendChild(tr)
+          })
+      
+          // 5) حساب الإحصائيات ورسم المخطط …
+          const total = comments.length
+          const counts = { positive: 0, neutral: 0, negative: 0 }
+          comments.forEach((c) => {
+            if (c.sentiment === 1) counts.positive++
+            else if (c.sentiment === 0) counts.neutral++
+            else if (c.sentiment === -1) counts.negative++
+          })
+      
+          // إعداد التقرير النصي
+          const postId = result.filename.split('_').slice(0, 2).join('_')
+          reportSection.innerHTML = `
+                      <p><strong>معرّف المنشور:</strong> ${postId}</p>
+                      <p><strong>إجمالي التعليقات:</strong> ${total}</p>
+                      <ul class="list-group">
+                        <li class="list-group-item d-flex justify-content-between">إيجابي<span>${counts.positive}</span></li>
+                        <li class="list-group-item d-flex justify-content-between">سلبي<span>${counts.negative}</span></li>
+                        <li class="list-group-item d-flex justify-content-between">محايد<span>${counts.neutral}</span></li>
+                      </ul>
+                    `
+      
+          // رسم المخطط
+          const data = {
+            labels: ['إيجابي', 'سلبي', 'محايد'],
+            datasets: [
+              {
+                label: 'عدد التعليقات',
+                data: [counts.positive, counts.negative, counts.neutral],
+                backgroundColor: [
+                  '#0d6efd', // أزرق لإيجابي
+                  '#dc3545', // أحمر لسلبي
+                  '#ffc107' // أصفر لمحايد
+                ]
+              }
+            ]
+          }
+      
+          const options = {
+            responsive: true,
+            plugins: {
+              legend: { display: false },
+              title: { display: true, text: 'توزيع المشاعر' }
+            }
+          }
+      
+          if (chart) chart.destroy()
+          chart = new Chart(ctx, { type: 'bar', data, options })
+      
+          resultsSection.classList.remove('d-none')
+        } catch (err) {
+          alert('حدث خطأ في الاتصال بالخادم: ' + err.message)
+        } finally {
+          btn.disabled = false
+          btn.textContent = 'جلب التعليقات'
+        }
+      })
+      
+      exportCsvBtn.addEventListener('click', () => (window.location = '/api/comments/export'))
+      exportReportBtn.addEventListener('click', () => window.print())
+    </script>
+    <script src="static/assets/js/main.js"></script>
+  </body>
+</html>

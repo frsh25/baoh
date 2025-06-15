@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>محلل تعليقات اليوتيوب</title>
+
+    <!-- خطوط جوجل -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Ubuntu:wght@300;400;500;700&display=swap" rel="stylesheet" />
+
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
+    <link href="{{ url_for('static', filename='assets/vendor/bootstrap-icons/bootstrap-icons.css') }}" rel="stylesheet" />
+    <link href="{{ url_for('static', filename='assets/vendor/bootstrap/css/bootstrap.css') }}" rel="stylesheet" />
+
+    <!-- Main CSS -->
+    <link href="static/assets/css/main.css" rel="stylesheet" />
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+    <!-- Custom Styles to match insta.html design -->
+    <style>
+      body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f5f7fa;
+      }
+      .btn-primary {
+        background-color: #7096d1 !important;
+        border-color: #7096d1 !important;
+      }
+      .btn-primary:hover {
+        background-color: #6082b6 !important;
+        border-color: #6082b6 !important;
+      }
+      .scrollable-table {
+        max-height: 300px;
+        overflow-y: auto;
+      }
+      /* تقرير التحليل */
+      #reportSection {
+        background-color: #7096d1;
+        color: #fff;
+        padding: 1rem;
+        border-radius: 0.25rem;
+      }
+      /* إخفاء الأزرار والنموذج عند الطباعة */
+      @media print {
+        #fetchForm,
+        #exportCsv,
+        #exportReport {
+          display: none !important;
+        }
+      }
+    </style>
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+  <body class="index-page">
+    <!-- الهيدر -->
+    <header id="header" class="header d-flex align-items-center sticky-top">
+      <div class="container-fluid container-xl position-relative d-flex align-items-center">
+        <a href="{{ url_for('home') }}" class="logo d-flex align-items-center ms-auto"><h1 class="sitename" style="text-align: right;">بَوْح</h1></a>
+        <nav id="navmenu" class="navmenu">
+          <ul>
+            <li>
+              <a href="{{ url_for('home') }}">الرئيسية</a>
+            </li>
+            <li>
+              <a href="#about">من نحن</a>
+            </li>
+            <li>
+              <a href="#services">خدماتنا</a>
+            </li>
+            <li>
+              <a href="{{ url_for('index') }}">التحليل</a>
+            </li>
+            <li>
+              <a href="#team">فريق العمل</a>
+            </li>
+          </ul>
+        </nav>
+        <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+        <a class="btn btn-primary btn-getstarted" href="{{ url_for('chat') }}">بوت المحادثة <i class="fas fa-robot"></i></a>
+        <a href="javascript:history.back()" class="btn-back ms-2"><i class="bi bi-arrow-left-circle"></i></a>
+      </div>
+    </header>
+
+    <div class="container py-4">
+      <!-- نموذج جلب تعليقات يوتيوب -->
+      <div class="card mb-4 shadow-sm">
+        <div class="card-header bg-white">
+          <h5 class="mb-0">جلب تعليقات الفيديو</h5>
+        </div>
+        <div class="card-body">
+          <form id="fetchForm">
+            <div class="mb-3">
+              <label for="apiKey" class="form-label">مفتاح YouTube API</label>
+              <input type="text" id="apiKey" class="form-control text-start" placeholder="API Key" dir="ltr" required />
+            </div>
+            <div class="mb-3">
+              <label for="identifier" class="form-label">معرف فيديو أو قائمة تشغيل</label>
+              <input type="text" id="identifier" class="form-control text-start" placeholder="مثال: dQw4w9WgXcQ أو PL..." dir="ltr" required />
+            </div>
+            <!-- زر الانتقال لصفحة الفيديو -->
+            <a href="{{ url_for('vid_yout') }}" class="btn btn-secondary">مشاهدة الفيديو التوضيحي</a>
+            <button type="submit" class="btn btn-primary">ابدأ التحليل</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- نتائج التحليل -->
+      <div id="resultsSection" class="d-none">
+        <h5 class="mb-3">التعليقات المُستخرجة</h5>
+        <div class="table-responsive scrollable-table mb-4">
+          <table class="table table-bordered table-hover text-center mb-0">
+            <thead class="table-light">
+              <tr>
+                <th>التعليق</th>
+                <th>المشاعر</th>
+              </tr>
+            </thead>
+            <tbody id="commentsTableBody"></tbody>
+          </table>
+        </div>
+
+        <div class="row gy-4">
+          <div class="col-md-6">
+            <div id="reportSection"></div>
+          </div>
+          <div class="col-md-6">
+            <canvas id="sentimentChart"></canvas>
+          </div>
+        </div>
+
+        <div class="mt-4">
+          <button id="exportCsv" class="btn btn-primary" onclick="window.location='/youtube/export'">تصدير إلى CSV</button>
+          <button id="exportReport" class="btn btn-primary ms-2" onclick="window.print()">طباعة التقرير</button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const fetchForm = document.getElementById('fetchForm')
+      const resultsSection = document.getElementById('resultsSection')
+      const commentsTableBody = document.getElementById('commentsTableBody')
+      const reportSection = document.getElementById('reportSection')
+      const ctx = document.getElementById('sentimentChart').getContext('2d')
+      let chart
+      
+      fetchForm.addEventListener('submit', async (e) => {
+        e.preventDefault()
+        const btn = fetchForm.querySelector('button')
+        const key = document.getElementById('apiKey').value.trim()
+        const iden = document.getElementById('identifier').value.trim()
+        btn.disabled = true
+        btn.textContent = 'جاري التحليل…'
+        try {
+          const res = await fetch('/youtube/analyze', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ apiKey: key, identifier: iden }) })
+          const data = await res.json()
+          if (!res.ok) throw new Error(data.error || 'خطأ غير متوقع')
+          commentsTableBody.innerHTML = ''
+          const counts = { إيجابي: 0, سلبي: 0, محايد: 0 }
+          data.comments.forEach((c) => {
+            const tr = document.createElement('tr')
+            tr.innerHTML = `<td>${c.comment_text}</td><td>${c.sentiment_label}</td>`
+            commentsTableBody.appendChild(tr)
+            counts[c.sentiment_label]++
+          })
+      
+          reportSection.innerHTML = `
+                <h5 class="mb-3 text-white">تقرير التحليل</h5>
+                <p><strong>إجمالي التعليقات:</strong> ${data.comments.length}</p>
+                <ul class="list-group">
+                  <li class="list-group-item d-flex justify-content-between align-items-center">😊 إيجابي <span>${counts['إيجابي']}</span></li>
+                  <li class="list-group-item d-flex justify-content-between align-items-center">😞 سلبي <span>${counts['سلبي']}</span></li>
+                  <li class="list-group-item d-flex justify-content-between align-items-center">😐 محايد <span>${counts['محايد']}</span></li>
+                </ul>
+              `
+      
+          const dataChart = { labels: ['إيجابي', 'سلبي', 'محايد'], datasets: [{ data: [counts['إيجابي'], counts['سلبي'], counts['محايد']], backgroundColor: ['#0d6efd', '#dc3545', '#ffc107'] }] }
+          const options = { responsive: true, plugins: { legend: { display: false }, title: { display: true, text: 'توزيع المشاعر' } } }
+          if (chart) chart.destroy()
+          chart = new Chart(ctx, { type: 'bar', data: dataChart, options: options })
+          resultsSection.classList.remove('d-none')
+        } catch (err) {
+          alert(err.message)
+        } finally {
+          btn.disabled = false
+          btn.textContent = 'ابدأ التحليل'
+        }
+      })
+    </script>
+  </body>
+</html>

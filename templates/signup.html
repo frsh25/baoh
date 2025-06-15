@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>إنشاء حساب</title>
+  <link href="static/assets/css/style.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="container">
+    <div class="left-side">
+      <img src="static/assets/img/log.jpg" alt="صورة إنشاء حساب">
+    </div>
+    <div class="right-side">
+      <h2 class="shine-text">إنشاء حساب جديد</h2>
+      <p>لديك حساب؟ <a href="{{ url_for('login') }}">تسجيل الدخول</a></p>
+
+      <!-- إذا كان هناك أي رسالة Flash -->
+      {% with messages = get_flashed_messages() %}
+        {% if messages %}
+          <ul>
+            {% for message in messages %}
+              <li>{{ message }}</li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      {% endwith %}
+
+      <!-- نموذج التسجيل -->
+      <form method="POST">
+        <label for="username">اسم المستخدم:</label>
+        <input type="text" name="username" required><br>
+
+        <label for="email">البريد الإلكتروني:</label>
+        <input type="email" name="email" required><br>
+
+        <label for="phone">رقم الهاتف:</label>
+        <input type="text" name="phone" required><br>
+
+        <label for="password">كلمة المرور:</label>
+        <input type="password" name="password" required><br>
+
+        <button type="submit">تسجيل</button>
+      </form>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,90 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Cairo', sans-serif;
+}
+
+
+
+.cards-container {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    margin-top: 50px;
+}
+
+.card {
+    background: linear-gradient(135deg, #d8e6f5, #83adda);
+    border-radius: 15px;
+    padding: 20px;
+    width: 480px;
+    text-align: center;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease-in-out;
+    cursor: pointer;
+    color: #fff;
+    position: relative;
+}
+
+.card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 12px 25px rgba(84, 166, 253, 0.678);
+}
+
+.card-icon {
+    font-size: 50px;
+    margin-bottom: 20px;
+}
+
+h2 {
+    font-size: 24px;
+    margin-bottom: 15px;
+}
+
+p {
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+.card:hover h2 {
+    color: #fff;
+    font-size: 26px;
+}
+
+
+@media screen and (max-width: 768px) {
+    .cards-container {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+body {
+    background-image: url('{{ url_for("static", filename="images/background.jpg") }}'); /* مسار الصورة في مجلد static */
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    font-family: 'Roboto', sans-serif;
+}
+/* تنسيق الأزرار */
+.btn {
+    display: inline-block;
+    font-size: 16px;
+    padding: 12px 30px;
+    border-radius: 30px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.btn-primary {
+    background-color: #dbdfe5; /* لون خلفية الزر */
+    color: #060606; /* لون النص */
+    border: 2px solid #c6caca; /* حدود الزر */
+}
+
+.btn-primary:hover {
+    background-color: #7096D1; 
+}

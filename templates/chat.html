@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>مساعد الذكاء الاصطناعي</title>
+    <link rel="icon" href="{{ url_for('static', filename='img/favicon.ico') }}" />
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/chat.css') }}" />
+  </head>
+  <body>
+    <button id="theme-toggle" aria-label="تبديل الوضع الداكن/الفاتح">🌙</button>
+    <div class="chat-container" role="log" aria-live="polite">
+      <header>بَوْح Chat</header>
+      <div id="chat-box" class="chat-box"></div>
+      <div id="typing-indicator" class="typing hidden" aria-hidden="true">
+        <span></span><span></span><span></span>
+      </div>
+      <button id="scroll-top" class="scroll-top hidden" aria-label="العودة للأعلى">⬆</button>
+      <form id="chat-form">
+        <input type="text" id="user-input" placeholder="اكتب رسالتك..." autocomplete="off" required autofocus aria-label="حقل إدخال الرسالة" />
+        <button type="submit" id="send-btn" aria-label="إرسال">إرسال</button>
+      </form>
+    </div>
+    <script src="{{ url_for('static', filename='assets/js/chat.js') }}"></script>
+  </body>
+</html>

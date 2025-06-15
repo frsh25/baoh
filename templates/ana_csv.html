@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>تحليل المشاعر العربية</title>
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com" rel="preconnect" />
+  <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet" />
+
+  <!-- Bootstrap + Icons -->
+  <link href="static/assets/vendor/bootstrap/css/bootstrap.css" rel="stylesheet" />
+  <link href="static/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet" />
+
+  <!-- CSS Files -->
+  <link href="static/assets/css/main.css" rel="stylesheet" />
+  <link href="static/assets/css/ana_csv.css" rel="stylesheet" />
+  <link href="static/assets/css/templatemo-space-dynamic.css" rel="stylesheet" />
+  <link href="static/assets/css/custom.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+<!-- الهيدر -->
+<header id="header" class="header d-flex align-items-center sticky-top">
+    
+  <div class="container-fluid container-xl position-relative d-flex align-items-center">
+
+    
+    <a href="{{ url_for('home') }}" class="logo d-flex align-items-center ms-auto">
+      <h1 class="sitename" style="text-align: right;">بَوْح</h1>
+     </a>
+
+    <nav id="navmenu" class="navmenu">
+      <ul>
+        <li><a href="{{ url_for('home') }}">الرئيسية</a></li>
+        <li><a href="#about">من نحن</a></li>
+        <li><a href="#services">خدماتنا</a></li>
+        <li><a href="{{ url_for('index') }}">التحليل</a></li>
+        <li><a href="#team">فريق العمل</a></li>
+        
+            
+      </ul>
+    </nav>
+    <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+
+    <!-- زر بوت المحادثة -->
+<a class="btn-getstarted" href="{{ url_for('chat') }}">
+بوت المحادثة <i class="fas fa-robot"></i>
+</a>
+
+<!-- سهم العودة للوراء -->
+<a href="javascript:history.back()" class="btn-back">
+<i class="bi bi-arrow-left-circle"></i>
+</a>
+
+
+  </div>
+  
+</header>
+
+<section class="analyze-section py-5" style="direction: rtl; background-color: #f5f8fd;">
+  <div class="container text-center">
+    <h5 class="shine-text">حلل بياناتك</h5>
+
+    <form id="uploadForm" method="POST" enctype="multipart/form-data">
+      <div class="upload-box border rounded p-4 mb-4 text-center" style="background-color: #ffffff; border: 2px dashed #7096D1;">
+        <i class="fa-solid fa-cloud-arrow-up fa-3x mb-3 text-primary" style="color: #7096D1;"></i>
+        <p class="mb-3 animated-text" style="color: #555;">اسحب الملف هنا أو اضغط لرفعه</p>
+
+        <input type="file" id="csvFile" name="file" accept=".csv" class="form-control mb-3" style="max-width: 400px; margin: 0 auto;" required />
+
+        <label for="selected_column" style="font-size: 16px; color: #555;">اختر العمود النصي لتحليله:</label>
+        <select name="selected_column" id="selected_column" class="form-control mb-3" style="max-width: 400px; margin: 0 auto;" required>
+          <option value="">اختر العمود</option>
+        </select>
+
+        <button type="submit" class="btn btn-primary" style="background-color: #7096D1; border: none; padding: 10px 30px;">
+          تحليل الملف
+        </button>
+      </div>
+    </form>
+
+    {% if message %}
+    <div id="message-box" class="alert alert-info" role="alert" style="max-width: 600px; margin: 0 auto;">
+      {{ message }}
+    </div>
+    <script>
+      setTimeout(() => document.getElementById('message-box').style.display = 'none', 4000);
+    </script>
+    {% endif %}
+
+    <div id="notification" class="alert alert-info" role="alert" style="display: none; max-width: 600px; margin: 0 auto;">
+      تم رفع الملف بنجاح! اختر العمود النصي للتحليل.
+    </div>
+  </div>
+</section>
+
+<script>
+  document.getElementById('csvFile').addEventListener('change', async function () {
+    const file = this.files[0];
+    if (!file) return;
+
+    document.getElementById('notification').style.display = 'block';
+
+    const formData = new FormData();
+    formData.append("file", file);
+
+    try {
+      const res = await fetch("/get_columns", { method: "POST", body: formData });
+      const data = await res.json();
+
+      const select = document.getElementById("selected_column");
+      select.innerHTML = "<option value=''>اختر العمود</option>";
+
+      if (data?.columns?.length > 0) {
+        data.columns.forEach(col => {
+          const option = document.createElement("option");
+          option.value = col;
+          option.textContent = col;
+          select.appendChild(option);
+        });
+      } else {
+        alert("❌ لم يتم العثور على أعمدة نصية.");
+      }
+    } catch (error) {
+      console.error("حدث خطأ أثناء جلب الأعمدة:", error);
+      alert("❌ حدث خطأ أثناء معالجة الملف.");
+    }
+
+    setTimeout(() => document.getElementById('notification').style.display = 'none', 3000);
+  });
+</script>
+
+<div class="container" id="summary-section">
+  <div class="row justify-content-center text-center">
+    <div class="col-md-4 mb-3">
+      <div class="summary-box">
+        <h5 class="summary-title">📊 ملخص البيانات</h5>
+        <p><strong>عدد الصفوف:</strong> <span id="numRows">{{ num_rows }}</span></p>
+        <p><strong>عدد الأعمدة:</strong> <span id="numColumns">{{ num_columns }}</span></p>
+        <p><strong>المجموع:</strong> <span id="total">{{ total }}</span></p>
+        <p><strong>المتوسط:</strong> <span id="average">{{ average }}</span></p>
+      </div>
+    </div>
+    <div class="col-md-4 mb-3">
+      <div class="summary-box">
+        <h5 class="summary-title">📊 الرسم البياني العمودي</h5>
+        <canvas id="barChart"></canvas>
+      </div>
+    </div>
+    
+  </div>
+
+  <div class="mt-4 d-flex justify-content-center gap-3 flex-wrap">
+    <div class="dropdown custom-dropdown">
+      <button class="btn dropdown-toggle" type="button" id="download-report" data-bs-toggle="dropdown" aria-expanded="false">
+        تحميل التقرير
+      </button>
+      <ul class="dropdown-menu" aria-labelledby="reportDropdown"id="download-options">
+        
+        <li><a class="dropdown-item" id="download-pdf"  href="/download/pdf/{{ csv_id }}"> 📝 تحميل كـ PDF</a></li>
+        
+        
+      </ul>
+    </div>
+  </div>
+</div>
+
+<section class="steps">
+  <h2>كيف يعمل؟</h2>
+  <div class="step"><strong>الخطوة 1:</strong> ارفع الملف المراد تحليله</div>
+  <div class="step"><strong>الخطوة 2:</strong> اضغط على "تحليل الملف"</div>
+  <div class="step"><strong>الخطوة 3:</strong> شاهد النتائج التفصيلية للبيانات</div>
+</section>
+
+<section class="faq">
+  <h2>الأسئلة الشائعة</h2>
+  <div class="faq-item">
+    <div class="faq-question">ما هي أنواع المشاعر التي يتم تحليلها؟</div>
+    <div class="faq-answer">يتم تصنيف المشاعر إلى إيجابية، سلبية، ومحايدة. ويمكن أيضاً عرض مشاعر دقيقة مثل الفرح، الحزن، الغضب، المفاجأة حسب الحاجة.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-question">هل يمكن تحليل الملفات باللغة الإنجليزية؟</div>
+    <div class="faq-answer">حالياً تدعم الأداة اللغة العربية فقط. وسيتم دعم اللغات الأخرى قريباً بإذن الله.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-question">هل يتم مشاركة الملفات المُحللة؟</div>
+    <div class="faq-answer">لا، نحترم خصوصيتك تماماً. لا يتم مشاركة أي محتوى يتم إدخاله.</div>
+  </div>
+  <div class="faq-item">
+    <div class="faq-question">ما مدى دقة التحليل؟</div>
+    <div class="faq-answer">التحليل يتم باستخدام نماذج مدربة بدقة عالية، لكن تبقى النتائج تقريبية حسب طبيعة النص.</div>
+  </div>
+ 
+<!-- بعد فتح تاج <body> مباشرة -->
+  <script>
+    {% if csv_id %}
+      window.csvId = "{{ csv_id }}";
+    {% else %}
+      window.csvId = null;
+    {% endif %}
+    {% if bar_chart_data %}
+      window.barChartConfig = {{ bar_chart_data|tojson }};
+      window.reportMeta = {
+        numRows: {{ num_rows }},
+        numColumns: {{ num_columns }},
+        total: {{ total }},
+        average: {{ average }}
+      };
+    {% endif %}
+  </script>
+  
+  
+ 
+
+ 
+<script src="{{ url_for('static', filename='assets/js/ana_csv.js') }}"></script>
+<script src="static/assets/js/main.js"></script>
+
+</body>
+</html>

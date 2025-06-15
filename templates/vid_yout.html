@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>فيديو توضيحي</title>
+
+    <!-- روابط الـ CSS كما في الصفحة الرئيسية -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Ubuntu:wght@300;400;500;700&display=swap" rel="stylesheet" />
+    <link href="{{ url_for('static', filename='assets/vendor/bootstrap/css/bootstrap.css') }}" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+    <style>
+      body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f5f7fa;
+      }
+      .btn-primary {
+        background-color: #7096d1 !important;
+        border-color: #7096d1 !important;
+      }
+      .btn-primary:hover {
+        background-color: #6082b6 !important;
+        border-color: #6082b6 !important;
+      }
+    </style>
+  </head>
+  <body class="index-page">
+    <div class="container py-5">
+      <h2 class="mb-4 text-center">شاهد كيف تعمل هذه الصفحة</h2>
+      <div class="row justify-content-center">
+        <div class="col-12 col-md-8">
+          <!-- عنصر الفيديو بصيغة MP4 -->
+          <video controls class="w-100 mb-4">
+            <source src="{{ url_for('static', filename='videos/Youtube.mp4') }}" type="video/mp4" />متصفحك لا يدعم عرض الفيديو.
+          </video>
+          <!-- زر الانتقال أسفل الفيديو -->
+          <div class="text-center">
+            <a href="https://console.cloud.google.com/" target="_blank" class="btn btn-primary btn-lg">الانتقال إلى Google Cloud</a>
+          </div>
+        </div>
+      </div>
+      <!-- زر العودة للصفحة الرئيسية -->
+      <div class="mt-4 text-center">
+        <a href="{{ url_for('youtube_page') }}" class="btn btn-outline-secondary">العودة للصفحة الرئيسية</a>
+      </div>
+    </div>
+
+    <!-- سكربتاتك -->
+    <script src="{{ url_for('static', filename='assets/js/main.js') }}"></script>
+  </body>
+</html>

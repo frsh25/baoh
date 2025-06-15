@@ -1,0 +1,48 @@
+.settings-form {
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.07);
+    max-width: 600px;
+    margin: auto;
+    font-family: 'Cairo', sans-serif;
+  }
+  
+  .settings-form .form-group {
+    margin-bottom: 20px;
+  }
+  
+  .settings-form label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+  }
+  
+  .settings-form input,
+  .settings-form select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-family: inherit;
+  }
+  
+  .form-actions {
+    text-align: left;
+  }
+  
+  .save-btn {
+    background-color: #7096D1;
+    color: white;
+    padding: 10px 25px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.3s;
+    font-weight: bold;
+  }
+  
+  .save-btn:hover {
+    background-color: #5a7ec0;
+  }
+  

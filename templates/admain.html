@@ -1,0 +1,136 @@
+ 
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>لوحة تحكم بوح</title>
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+  <link href="{{ url_for('static', filename='assets/css/admain.css') }}" rel="stylesheet">
+   
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+  <header class="main-header">
+    <h1>📊 بوح</h1>
+    <div class="user-info">
+      <span>مرحباً، أدمن</span>
+     
+    </div>
+  </header>
+
+  <div class="dashboard-container">
+    <aside class="sidebar">
+      <nav>
+        <ul class="sidebar-menu">
+          <li><a href="{{ url_for('admain') }}" class="active"><span>📊</span> نظرة عامة</a></li>
+        <li><a href="{{ url_for('users') }}"><span>👥</span> المستخدمون</a></li>
+          <li><a href="{{ url_for('settings') }}"><span>⚙️</span> الإعدادات</a></li>
+        </ul>
+      </nav>
+    </aside>
+    
+
+    <main class="main-content">
+      <section class="cards">
+        <div class="card"><h3>إيجابية</h3><p>{{ positive_count }}</p></div>
+        <div class="card"><h3>سلبية</h3><p>{{ negative_count }}</p></div>
+        <div class="card"><h3>حيادية</h3><p>{{ neutral_count }}</p></div>
+        <div class="card"><h3>إجمالي المنشورات</h3><p>{{ total_posts }}</p></div>
+      </section>
+
+      <section class="chart-section">
+        <h2>تغير المشاعر خلال الأسبوع</h2>
+        <canvas id="lineChart"></canvas>
+      </section>
+
+      <section class="keywords">
+        <h2>أكثر الكلمات تكرارًا</h2>
+        <ul>
+          {% for keyword in top_keywords %}
+            <li>{{ keyword }}</li>
+          {% endfor %}
+        </ul>
+      </section>
+
+      <section class="posts-table">
+        <h2>أحدث المنشورات</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>المنشور</th>
+              <th>النوع</th>
+              <th>التاريخ</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for post in latest_posts %}
+              <tr>
+                <td>{{ post.csv_text|truncate(50) }}</td>
+                <td class="{% if post.csv_prediction == 'positive' %}positive{% elif post.csv_prediction == 'negative' %}negative{% else %}neutral{% endif %}">
+                  {% if post.csv_prediction == 'positive' %}إيجابي{% elif post.csv_prediction == 'negative' %}سلبي{% else %}حيادي{% endif %}
+                </td>
+                <td>{{ post.csv_date_uploaded.strftime('%d %b') }}</td>
+              </tr>
+            {% else %}
+              <tr><td colspan="3">لا توجد منشورات حتى الآن</td></tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </section>
+    </main>
+  </div>
+  <script>
+    const ctx = document.getElementById('lineChart').getContext('2d');
+    new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: {{ sentiment_data.labels | tojson | safe }},
+        datasets: [
+          {
+            label: 'إيجابي',
+            data: {{ sentiment_data.positive | tojson | safe }},
+            borderColor: '#4CAF50',
+            borderWidth: 2,
+            tension: 0.4,
+            fill: false
+          },
+          {
+            label: 'سلبي',
+            data: {{ sentiment_data.negative | tojson | safe }},
+            borderColor: '#F44336',
+            borderWidth: 2,
+            tension: 0.4,
+            fill: false
+          },
+          {
+            label: 'حيادي',
+            data: {{ sentiment_data.neutral | tojson | safe }},
+            borderColor: '#FF9800',
+            borderWidth: 2,
+            tension: 0.4,
+            fill: false
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            position: 'top'
+          },
+          title: {
+            display: true,
+            text: 'تحليل المشاعر بمرور الوقت'
+          }
+        }
+      }
+    });
+  </script>
+  
+
+
+</body>
+</html>

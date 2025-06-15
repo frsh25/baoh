@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>الإعدادات | لوحة تحكم بوح</title>
+  
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+  <link href="{{ url_for('static', filename='assets/css/admain.css') }}" rel="stylesheet">
+  <link href="{{ url_for('static', filename='assets/css/settings.css') }}" rel="stylesheet">
+</head>
+<body>
+
+  <header class="main-header">
+    <h1>📊 بوح</h1>
+    <div class="user-info">
+      <span>مرحباً، {{ session.get('admin_username', 'أدمن') }}</span>
+      </div>
+  </header>
+
+  <div class="dashboard-container">
+    <aside class="sidebar">
+      <nav>
+        <ul class="sidebar-menu">
+          <li><a href="{{ url_for('admain') }}"><span>📊</span> نظرة عامة</a></li>
+         <li><a href="{{ url_for('users') }}"><span>👥</span> المستخدمون</a></li>
+          <li><a href="{{ url_for('settings') }}" class="active"><span>⚙️</span> الإعدادات</a></li>
+        </ul>
+      </nav>
+    </aside>
+
+    <main class="main-content">
+      <section class="section-header">
+        <h2>الإعدادات العامة</h2>
+      </section>
+
+      <!-- عرض رسائل Flash -->
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          <div class="flash-messages">
+            {% for category, message in messages %}
+              <div class="alert alert-{{ category }}">{{ message }}</div>
+            {% endfor %}
+          </div>
+        {% endif %}
+      {% endwith %}
+
+      <section class="settings-form">
+        <h3>تحديث الملف الشخصي</h3>
+        <form method="POST" action="{{ url_for('settings') }}">
+          
+          <input type="hidden" name="action" value="update_profile">
+          <div class="form-group">
+            <label for="admin-username">اسم المستخدم:</label>
+            <input type="text" id="admin-username" name="admin-username" value="{{ admin.username }}" disabled> <!-- اسم المستخدم للقراءة فقط -->
+          </div>
+          <div class="form-group">
+            <label for="admin-email">البريد الإلكتروني للإدارة:</label>
+            <input type="email" id="admin-email" name="admin-email" value="{{ admin.email }}" required>
+          </div>
+          <div class="form-actions">
+            <button type="submit" class="save-btn">حفظ البريد الإلكتروني</button>
+          </div>
+        </form>
+      </section>
+
+      <section class="settings-form">
+        <h3>تغيير كلمة المرور</h3>
+        <form method="POST" action="{{ url_for('settings') }}">
+          <input type="hidden" name="action" value="change_password">
+          <div class="form-group">
+            <label for="current-password">كلمة المرور الحالية:</label>
+            <input type="password" id="current-password" name="current-password" required>
+          </div>
+          <div class="form-group">
+            <label for="new-password">كلمة المرور الجديدة:</label>
+            <input type="password" id="new-password" name="new-password" required>
+          </div>
+          <div class="form-group">
+            <label for="confirm-password">تأكيد كلمة المرور الجديدة:</label>
+            <input type="password" id="confirm-password" name="confirm-password" required>
+          </div>
+          <div class="form-actions">
+            <button type="submit" class="save-btn">تغيير كلمة المرور</button>
+          </div>
+        </form>
+        
+      </section>
+
+      <!-- يمكن إضافة أقسام أخرى للإعدادات هنا -->
+
+    </main>
+  </div>
+
+</body>
+</html>

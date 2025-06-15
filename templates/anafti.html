@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>تحليل المشاعر العربية</title>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Ubuntu:wght@300;400;500;700&display=swap" rel="stylesheet" />
+    <!-- Vendor CSS Files -->
+    <link href="{{ url_for('static', filename='assets/vendor/bootstrap/css/bootstrap.css') }}" rel="stylesheet" />
+    <link href="{{ url_for('static', filename='assets/vendor/bootstrap-icons/bootstrap-icons.css') }}" rel="stylesheet" />
+    <!-- Main CSS File -->
+    <link href="{{ url_for('static', filename='assets/css/main.css') }}" rel="stylesheet" />
+    <link href="{{ url_for('static', filename='assets/css/anafti.css') }}" rel="stylesheet" />
+    <!-- Link to External CSS -->
+    <link href="{{ url_for('static', filename='styles.css') }}" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  </head>
+  <body class="index-page">
+    <!-- الهيدر -->
+    <header id="header" class="header d-flex align-items-center sticky-top">
+      <div class="container-fluid container-xl position-relative d-flex align-items-center">
+        <a href="{{ url_for('home') }}" class="logo d-flex align-items-center ms-auto"><h1 class="sitename" style="text-align: right;">بَوْح</h1></a>
+        <nav id="navmenu" class="navmenu">
+          <ul>
+            <li>
+              <a href="{{ url_for('home') }}">الرئيسية</a>
+            </li>
+            <li>
+              <a href="#about">من نحن</a>
+            </li>
+            <li>
+              <a href="#services">خدماتنا</a>
+            </li>
+            <li>
+              <a href="{{ url_for('index') }}">التحليل</a>
+            </li>
+            <li>
+              <a href="#team">فريق العمل</a>
+            </li>
+          </ul>
+        </nav>
+        <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+
+        <!-- زر بوت المحادثة -->
+        <a class="btn-getstarted" href="{{ url_for('chat') }}">بوت المحادثة <i class="fas fa-robot"></i></a>
+
+        <!-- سهم العودة للوراء -->
+        <a href="javascript:history.back()" class="btn-back"><i class="bi bi-arrow-left-circle"></i></a>
+      </div>
+    </header>
+    <!-- نهاية الهيدر -->
+    <main>
+      <div class="cards-container">
+        <!-- كارد فيسبوك -->
+        <div class="card" id="facebook-card">
+          <div class="card-icon">
+            <i class="bi bi-facebook" style="font-size: 50px; color: #1877f2;"></i>
+          </div>
+          <h2>تحليل فيسبوك</h2>
+          <p>حلل تعليقات فيسبوك بسهولة واكتشف معاني المشاعر</p>
+          <a href="{{ url_for('analysis') }}" class="btn btn-primary">حلل الآن</a>
+        </div>
+
+        <!-- كارد إنستغرام -->
+        <div class="card" id="instagram-card">
+          <div class="card-icon">
+            <i class="bi bi-instagram" style="font-size: 50px; color: #e1306c;"></i>
+          </div>
+          <h2>تحليل إنستغرام</h2>
+          <p>تحليل التعليقات على منشورات إنستغرام بذكاء</p>
+          <a href="{{ url_for('insta') }}" class="btn btn-primary">حلل الآن</a>
+        </div>
+
+        <!-- كارد يوتيوب -->
+        <div class="card" id="youtube-card">
+          <div class="card-icon">
+            <i class="bi bi-youtube" style="font-size: 50px; color: #FF0000;"></i>
+          </div>
+          <h2>تحليل يوتيوب</h2>
+          <p>استخرج المشاعر من تعليقات يوتيوب بدقة</p>
+          <a href="{{ url_for('youtube_page') }}" class="btn btn-primary">حلل الآن</a>
+        </div>
+      </div>
+    </main>
+    <script src="static/assets/js/main.js"></script>
+  </body>
+</html>

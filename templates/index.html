@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>تحليل المشاعر العربية</title>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Ubuntu:wght@300;400;500;700&display=swap" rel="stylesheet" />
+    <!-- Vendor CSS Files -->
+    <link href="{{ url_for('static', filename='assets/vendor/bootstrap/css/bootstrap.css') }}" rel="stylesheet" />
+    <link href="{{ url_for('static', filename='assets/vendor/bootstrap-icons/bootstrap-icons.css') }}" rel="stylesheet" />
+    <!-- Main CSS File -->
+    <link href="{{ url_for('static', filename='assets/css/main.css') }}" rel="stylesheet" />
+    <link href="{{ url_for('static', filename='assets/css/index.css') }}" rel="stylesheet" />
+    <!-- Link to External CSS -->
+    <link href="{{ url_for('static', filename='styles.css') }}" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  </head>
+  <body class="index-page">
+    <header id="header" class="header d-flex align-items-center sticky-top">
+      <div class="container-fluid container-xl position-relative d-flex align-items-center">
+        <a href="{{ url_for('home') }}" class="logo d-flex align-items-center ms-auto"><h1 class="sitename" style="text-align: right;">بَوْح</h1></a>
+
+        <nav id="navmenu" class="navmenu">
+          <ul>
+            <li>
+              <a href="{{ url_for('home') }}">الرئيسية</a>
+            </li>
+            <li>
+              <a href="#about">من نحن</a>
+            </li>
+            <li>
+              <a href="#services">خدماتنا</a>
+            </li>
+            <li>
+              <a href="{{ url_for('index') }}">التحليل</a>
+            </li>
+            <li>
+              <a href="#team">فريق العمل</a>
+            </li>
+          </ul>
+        </nav>
+        <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+
+        <!-- زر بوت المحادثة -->
+        <a class="btn-getstarted" href="{{ url_for('chat') }}">بوت المحادثة <i class="fas fa-robot"></i></a>
+
+        <!-- سهم العودة للوراء -->
+        <a href="javascript:history.back()" class="btn-back"><i class="bi bi-arrow-left-circle"></i></a>
+      </div>
+    </header>
+    <main>
+      <div class="cards-container">
+        <div class="card" id="text-analysis-card">
+          <div class="card-icon">📝</div>
+          <h2>تحليل النصوص</h2>
+          <p>اكتشف معاني وتحليل النصوص بسهولة</p>
+          <a href="{{ url_for('ana_text') }}" class="btn btn-primary">حلل الآن</a>
+        </div>
+
+        <div class="card" id="url-analysis-card">
+          <div class="card-icon">🔗</div>
+          <h2>تحليل الروابط</h2>
+          <p>تحليل الروابط وفحص تفاصيلها بذكاء</p>
+          <a href="{{ url_for('anafti') }}" class="btn btn-primary">حلل الآن</a>
+        </div>
+
+        <!-- الكارد الجديد لتحليل CSV -->
+        <div class="card" id="csv-analysis-card">
+          <div class="card-icon">📊</div>
+          <h2>تحليل ملفات CSV</h2>
+          <p>قم بتحميل وتحليل بياناتك من خلال ملفات CSV بسهولة</p>
+          <a href="{{ url_for('ana_csv') }}" class="btn btn-primary">حلل الآن</a>
+        </div>
+      </div>
+    </main>
+    <script src="static/assets/js/main.js"></script>
+  </body>
+</html>

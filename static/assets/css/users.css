@@ -1,0 +1,74 @@
+
+body {
+    font-family: 'Cairo', sans-serif;
+    background-color: #f4f7fa;
+    margin: 0;
+    padding: 20px;
+    direction: rtl;
+}
+
+.container {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    color: #7096D1;
+    margin-bottom: 20px;
+}
+
+.styled-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.styled-table th, .styled-table td {
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    text-align: center;
+}
+
+.styled-table th {
+    background-color: #7096D1;
+    color: white;
+}
+
+.styled-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+button {
+    background-color: #7096D1;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    margin: 0 4px;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #557bb8;
+}
+.sidebar a {
+    color: rgb(10, 10, 10); /* يخلي الرابط أبيض */
+    text-decoration: none; /* يشيل الخط تحت الرابط */
+    display: block;
+    padding: 10px 15px;
+    border-radius: 10px;
+    transition: background 0.3s ease;
+    font-weight: 600;
+  }
+  
+  .sidebar a:hover {
+    background-color: #5c7bb6; /* لمسة ناعمة عند المرور */
+  }
+  
+  .sidebar a.active {
+    background-color: #3f5fa5; /* تمييز الصفحة الحالية */
+  }
+  

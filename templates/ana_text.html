@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تحليل المشاعر العربية</title>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Ubuntu:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <!-- Vendor CSS Files -->
+    <link href="{{ url_for('static', filename='assets/vendor/bootstrap/css/bootstrap.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='assets/vendor/bootstrap-icons/bootstrap-icons.css') }}" rel="stylesheet">
+    <!-- Main CSS File -->
+    <link href="{{ url_for('static', filename='assets/css/main.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='assets/css/ana_text.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='styles.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="index-page">
+  <header id="header" class="header d-flex align-items-center sticky-top">
+   <div class="container-fluid container-xl position-relative d-flex align-items-center">
+     <a href="{{ url_for('home') }}" class="logo d-flex align-items-center ms-auto">
+       <h1 class="sitename" style="text-align: right;">بَوْح</h1>
+      </a>
+     <nav id="navmenu" class="navmenu">
+       <ul>
+         <li><a href="{{ url_for('home') }}">الرئيسية</a></li>
+         <li><a href="#about">من نحن</a></li>
+         <li><a href="#services">خدماتنا</a></li>
+         <li><a href="{{ url_for('index') }}">التحليل</a></li>
+         <li><a href="#team">فريق العمل</a></li>      
+       </ul>
+     </nav>
+     <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+
+      <!-- زر بوت المحادثة -->
+<a class="btn-getstarted" href="{{ url_for('chat') }}">
+  بوت المحادثة <i class="fas fa-robot"></i>
+</a>
+
+<!-- سهم العودة للوراء -->
+<a href="javascript:history.back()" class="btn-back">
+  <i class="bi bi-arrow-left-circle"></i>
+</a>
+    </div>
+</header>
+
+    <section class="hero">
+      <h1>حلّل مشاعرك بدقة وذكاء</h1>
+      <p>أدخل أي نص ، ودع الأداة تكشف لك بدقة المشاعر المتضمنة</p>
+    </section>
+
+    <div class="container">
+      <form method="POST" action="{{ url_for('ana_text') }}">
+        <textarea
+          name="text_input"
+          placeholder="أدخل أو الصق النص هنا..."
+          class="form-control"
+          rows="9"></textarea>
+          <div class="word-count">عدد الكلمات: {{ text.split()|length if text else 0 }}</div>
+        <button type="submit" class="btn btn-primary analyze-btn">تحليل النص</button>
+      </form>      
+
+      <section class="analysis-result">
+        <h2 class="section-title text-center">التحليل</h2>
+      
+        {# قبل التحليل: ثلاثي الإيموجيات بجانب بعض مركزين تحت العنوان #}
+        {% if not sentiment %}
+          <div class="result-container w-100 d-flex justify-content-center mt-3">
+            <div class="emoji-block d-flex flex-row gap-4">
+              <div class="emoji-item d-flex flex-column align-items-center">
+                <span style="font-size:2.5rem">🙂</span>
+                <p>إيجابي</p>
+              </div>
+              <div class="emoji-item d-flex flex-column align-items-center">
+                <span style="font-size:2.5rem">☹️</span>
+                <p>سلبي</p>
+              </div>
+              <div class="emoji-item d-flex flex-column align-items-center">
+                <span style="font-size:2.5rem">😐</span>
+                <p>محايد</p>
+              </div>
+            </div>
+          </div>
+        {% endif %}
+      
+        {# بعد التحليل: إيموجي واحد مركز #}
+        {% if sentiment %}
+          <div class="result-container w-100 d-flex justify-content-center mt-3">
+            <div class="emoji-block d-flex flex-row gap-4">
+              <div class="emoji-item d-flex flex-column align-items-center">
+                {% if sentiment == 'إيجابي' %}
+                  <span style="font-size:2.5rem">🙂</span>
+                {% elif sentiment == 'سلبي' %}
+                  <span style="font-size:2.5rem">☹️</span>
+                {% else %}
+                  <span style="font-size:2.5rem">😐</span>
+                {% endif %}
+                <p>{{ sentiment }}</p>
+              </div>
+            </div>
+          </div>
+        {% endif %}
+      </section>                     
+      
+      <section class="features">
+        <div class="feature">
+          <h3>تحليل دقيق</h3>
+          <p>يعتمد على تقنيات الذكاء الاصطناعي .</p>
+        </div>
+        <div class="feature">
+          <h3>دعم النصوص الطويلة</h3>
+          <p>لا تقلق من الحجم، أداتنا مصممة للتعامل مع نصوص كبيرة.</p>
+        </div>
+        <div class="feature">
+          <h3>واجهة عربية سهلة</h3>
+          <p>تصميم مريح ومخصص للمستخدم العربي بالكامل.</p>
+        </div>
+      </section>
+
+      <section class="steps">
+        <h2>كيف يعمل؟</h2>
+        <div class="step"><strong>الخطوة 1:</strong> أدخل النص المراد تحليله</div>
+        <div class="step"><strong>الخطوة 2:</strong> اضغط على "تحليل النص"</div>
+        <div class="step"><strong>الخطوة 3:</strong> شاهد النتائج التفصيلية للمشاعر</div>
+      </section>
+
+      <section class="faq">
+        <h2>الأسئلة الشائعة</h2>
+        <div class="faq-item">
+          <div class="faq-question">ما هي أنواع المشاعر التي يتم تحليلها؟</div>
+          <div class="faq-answer">يتم تصنيف المشاعر إلى إيجابية، سلبية، ومحايدة. ويمكن أيضاً عرض مشاعر دقيقة مثل الفرح، الحزن، الغضب، المفاجأة حسب الحاجة.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">هل يمكن تحليل نصوص باللغة الإنجليزية؟</div>
+          <div class="faq-answer">حالياً تدعم الأداة اللغة العربية فقط. وسيتم دعم اللغات الأخرى قريباً بإذن الله.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">هل يتم مشاركة النصوص المُحللة؟</div>
+          <div class="faq-answer">لا، نحترم خصوصيتك تماماً. لا يتم  مشاركة أي محتوى يتم إدخاله.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question">ما مدى دقة التحليل؟</div>
+          <div class="faq-answer">التحليل يتم باستخدام نماذج مدربة بدقة عالية، لكن تبقى النتائج تقريبية حسب طبيعة النص.</div>
+        </div>
+      </section>
+
+      <script>
+        const questions = document.querySelectorAll('.faq-question');
+        questions.forEach(question => {
+          question.addEventListener('click', () => {
+            const answer = question.nextElementSibling;
+            answer.style.display = answer.style.display === 'block' ? 'none' : 'block';
+          });
+        });
+      </script>
+    </div>
+  </body>
+</html>

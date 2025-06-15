@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>تحليل المشاعر العربية</title>
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap" rel="stylesheet" />
+    <!-- Vendor CSS Files -->
+    <link href="static/assets/vendor/bootstrap/css/bootstrap.css" rel="stylesheet" />
+    <link href="static/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet" />
+
+    <!-- Main CSS File -->
+    <link href="static/assets/css/main.css" rel="stylesheet" />
+
+    <!-- about CSS File -->
+    <link href="static/assets/css/templatemo-space-dynamic.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  </head>
+  <body class="index-page">
+    <header id="header" class="header d-flex align-items-center sticky-top">
+      <div class="container-fluid container-xl position-relative d-flex align-items-center">
+        <a href="{{ url_for('home') }}" class="logo d-flex align-items-center ms-auto"><h1 class="sitename" style="text-align: right;">بَوْح</h1></a>
+
+        <nav id="navmenu" class="navmenu">
+          <ul>
+            <li>
+              <a href="{{ url_for('home') }}">الرئيسية</a>
+            </li>
+            <li>
+              <a href="#about">خدماتنا</a>
+            </li>
+            <li>
+              <a href="#featured-services">مزايانا</a>
+            </li>
+            <li>
+              <a href="{{ url_for('index') }}">التحليل</a>
+            </li>
+            <li>
+              <a href="#team">فريق العمل</a>
+            </li>
+          </ul>
+        </nav>
+        <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+
+        <!-- زر بوت المحادثة -->
+        <a class="btn-getstarted" href="{{ url_for('chat') }}">بوت المحادثة <i class="fas fa-robot"></i></a>
+
+        <!-- سهم العودة للوراء -->
+        <a href="javascript:history.back()" class="btn-back"><i class="bi bi-arrow-left-circle"></i></a>
+      </div>
+    </header>
+
+    <main class="main">
+      <!-- Hero Section -->
+      <section id="hero" class="hero section">
+        <div class="container">
+          <div class="row gy-4">
+            <div class="col-lg-6 order-2 order-lg-1 d-flex flex-column justify-content-center" data-aos="fade-up">
+              <h1>استمتع بتجربة تحليل المشاعر وفهم أعمق للبيانات</h1>
+              <p>حلّنا الذكي يستخدم تقنيات الذكاء الاصطناعي لفهم المشاعر الحقيقية وراء المحتوى واكتشاف اتجاهات الجمهور ، ابدأ الآن واكتشف رؤى دقيقة تساعدك في اتخاذ قرارات مبنية على بيانات موثوقة.</p>
+              <div class="d-flex">
+                <a href="{{ url_for('login') }}" class="btn-get-started">ابدأ الان</a>
+              </div>
+            </div>
+            <div class="col-lg-6 order-1 order-lg-2 hero-img" data-aos="zoom-out" data-aos-delay="100">
+              <img src="static/assets/img/hero-img.png" class="img-fluid animated" alt="" />
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- /Hero Section -->
+
+      <!-- Featured Services Section -->
+      <section id="featured-services" class="featured-services section">
+        <div class="container">
+          <div class="row gy-4">
+            <div class="col-lg-4 d-flex" data-aos="fade-up" data-aos-delay="100">
+              <div class="service-item position-relative">
+                <div class="icon">
+                  <i class="bi bi-graph-up-arrow icon"></i>
+                </div>
+                <h4><a href="" class="stretched-link">تحليل دقيق للمشاعر</a></h4>
+                <p>نستخدم تقنيات الذكاء الاصطناعي لفهم وتحليل المشاعر بدقة من النصوص العربية على وسائل التواصل الاجتماعي</p>
+              </div>
+            </div>
+            <!-- End Service Item -->
+
+            <div class="col-lg-4 d-flex" data-aos="fade-up" data-aos-delay="200">
+              <div class="service-item position-relative">
+                <div class="icon">
+                  <i class="bi bi-translate icon"></i>
+                </div>
+                <h4><a href="" class="stretched-link">دعم للغة العربية</a></h4>
+                <p>يستخدم النموذج تقنيات متطورة في معالجة اللغة العربية، مما يتيح التعرف على المعاني بدقة وتحليل النصوص بشكل صحيح</p>
+              </div>
+            </div>
+            <!-- End Service Item -->
+
+            <div class="col-lg-4 d-flex" data-aos="fade-up" data-aos-delay="300">
+              <div class="service-item position-relative">
+                <div class="icon">
+                  <i class="bi bi-bar-chart-line icon"></i>
+                </div>
+                <h4><a href="" class="stretched-link">تحليلات لحظية وتقارير مفصلة</a></h4>
+                <p>يقدم الموقع نتائج فورية مع إمكانية استخراج تقارير تحليلية مفصلة حول المشاعر والاتجاهات العامة</p>
+              </div>
+            </div>
+            <!-- End Service Item -->
+          </div>
+        </div>
+      </section>
+
+      <!-- /Featured Services Section -->
+
+      <div id="about" class="about-us section">
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-4">
+              <div class="left-image wow fadeIn" data-wow-duration="1s" data-wow-delay="0.2s">
+                <img src="static/assets/img/about-left-image.png" alt="about us" />
+              </div>
+            </div>
+            <div class="col-lg-8 align-self-center">
+              <div class="services">
+                <div class="row">
+                  <div class="col-lg-6">
+                    <div class="item wow fadeIn" data-wow-duration="1s" data-wow-delay="0.5s">
+                      <div class="icon">
+                        <img src="static/assets/img/service-icon-01.png" alt="brand monitoring" />
+                      </div>
+                      <div class="right-text">
+                        <h4>تحليل الروابط</h4>
+                        <p>استكشف تفاعل الجمهور من خلال تحليل الروابط على منصات التواصل الاجتماعي وفهم الانطباعات والتوجهات وراء كل رابط بدقة.</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-6">
+                    <div class="item wow fadeIn" data-wow-duration="1s" data-wow-delay="0.7s">
+                      <div class="icon">
+                        <img src="static/assets/img/service-icon-02.png" alt="customer sentiment" />
+                      </div>
+                      <div class="right-text">
+                        <h4>تحليل مشاعر العملاء</h4>
+                        <p>استخدام الذكاء الاصطناعي لتحليل مراجعات العملاء وفهم آرائهم حول المنتجات والخدمات.</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-6">
+                    <div class="item wow fadeIn" data-wow-duration="1s" data-wow-delay="0.9s">
+                      <div class="icon">
+                        <img src="static/assets/img/service-icon-03.png" alt="marketing strategies" />
+                      </div>
+                      <div class="right-text">
+                        <h4>تحليل ملفات Csv</h4>
+                        <p>استعن بحلول متطورة لقراءة الملفات واستخراج البيانات ، ثم عرض نتائج تقنية مبسطة قابلة للتحميل لعرض النتائج فورًا.</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-6">
+                    <div class="item wow fadeIn" data-wow-duration="1s" data-wow-delay="1.1s">
+                      <div class="icon">
+                        <img src="static/assets/img/service-icon-04.png" alt="user experience" />
+                      </div>
+                      <div class="right-text">
+                        <h4>تحسين تجربة المستخدم</h4>
+                        <p>تحليل التفاعل مع المنصات الرقمية وتحسين تجربة المستخدم من خلال تصميم واجهات ملائمة وتفاعلية.</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- قسم الفريق -->
+      <section id="team" class="team section" dir="rtl">
+        <!-- عنوان القسم -->
+        <div class="container section-title" data-aos="fade-up">
+          <span>فريقنا المحترف</span>
+          <h2>فريق العمل</h2>
+          <p>نعمل معًا لتجاوز التحديات وتحقيق النجاح المشرق</p>
+        </div>
+        <!-- نهاية عنوان القسم -->
+
+        <div class="container">
+          <div class="row gy-5">
+            <!-- العضو الأول -->
+            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
+              <div class="member">
+                <div class="pic">
+                  <img src="static/assets/img/team/1.jpg" class="img-fluid" alt="  فردوس عبدالله" />
+                </div>
+                <div class="member-info">
+                  <h4>فردوس عبدالله</h4>
+                  <span>الرئيس التنفيذي</span>
+                  <hr style="width: 50%; margin: 15px auto 15px 0; border-color: #ddd;" />
+
+                  <div class="social">
+                    <a href="#"><i class="bi bi-twitter-x"></i></a>
+                    <a href="#"><i class="bi bi-facebook"></i></a>
+                    <a href="#"><i class="bi bi-instagram"></i></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- نهاية العضو الأول -->
+
+            <!-- العضو الثاني -->
+            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
+              <div class="member">
+                <div class="pic">
+                  <img src="static/assets/img/team/2.jpg" class="img-fluid" alt="رجاء احمد  " />
+                </div>
+                <div class="member-info">
+                  <h4>رجاء احمد</h4>
+                  <span>مديرة المنتج</span>
+                  <hr style="width: 50%; margin: 15px 0 15px auto; border-color: #ddd;" />
+                  <div class="social">
+                    <a href="#"><i class="bi bi-twitter-x"></i></a>
+                    <a href="#"><i class="bi bi-facebook"></i></a>
+                    <a href="#"><i class="bi bi-instagram"></i></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- نهاية العضو الثاني -->
+
+            <!-- العضو الثالث -->
+            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
+              <div class="member">
+                <div class="pic">
+                  <img src="static/assets/img/team/3.jpg" class="img-fluid" alt="  شفاء عبده" />
+                </div>
+                <div class="member-info">
+                  <h4>شفاء عبده</h4>
+                  <span>الرئيس التقني</span>
+                  <hr style="width: 50%; margin: 15px 0 15px auto; border-color: #ddd;" />
+                  <div class="social">
+                    <a href="#"><i class="bi bi-twitter-x"></i></a>
+                    <a href="#"><i class="bi bi-facebook"></i></a>
+                    <a href="#"><i class="bi bi-instagram"></i></a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- نهاية العضو الثالث -->
+          </div>
+        </div>
+      </section>
+      <!-- نهاية قسم الفريق -->
+    </main>
+
+    <!-- footer -->
+    <!-- Footer -->
+    <!-- Footer -->
+    <footer id="footer" class="footer">
+      <div class="footer-newsletter">
+        <!-- يمكنك لاحقًا إضافة اشتراك بالنشرة البريدية هنا إن أردت -->
+      </div>
+
+      <div class="container footer-top">
+        <div class="row gy-4" style="direction: rtl; text-align: right;">
+          <!-- معلومات عن الموقع -->
+          <div class="col-lg-4 col-md-6 footer-about">
+            <a href="index.html" class="d-flex align-items-center"><span class="sitename">بَوْح</span></a>
+            <div class="footer-contact pt-3">
+              <p class="mt-3">
+                <strong>الهاتف:</strong> <span>777777777 +967</span>
+              </p>
+              <p>
+                <strong>البريد الإلكتروني:</strong> <a href="mailto:info@example.com">info@example.com</a>
+              </p>
+            </div>
+          </div>
+
+          <!-- خدمات تحليل المشاعر -->
+          <div class="col-lg-4 col-md-6 footer-links">
+            <h4>خدمات تحليل المشاعر</h4>
+            <ul style="list-style: none; padding: 0;">
+              <li>
+                <i class="bi bi-chevron-left"></i> <span>📝 تحليل تعليقات فيسبوك وإنستجرام ويوتيوب</span>
+              </li>
+              <li>
+                <i class="bi bi-chevron-left"></i> <span>📈 كشف المشاعر السلبية والإيجابية والمحايدة</span>
+              </li>
+              <li>
+                <i class="bi bi-chevron-left"></i> <span>📊 تقارير أداء منصات التواصل</span>
+              </li>
+            </ul>
+          </div>
+
+          <!-- تابعنا -->
+          <div class="col-lg-4 col-md-12">
+            <h4>تابعنا</h4>
+            <p>انضم إلينا عبر منصات التواصل الاجتماعي لمتابعة آخر الأخبار والتحديثات.</p>
+            <div class="social-links d-flex">
+              <a href="#"><i class="bi bi-twitter-x"></i></a>
+              <a href="#"><i class="bi bi-facebook"></i></a>
+              <a href="#"><i class="bi bi-instagram"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="container copyright text-center mt-4">
+        <p>
+          © حقوق النشر لـ <strong class="px-1 sitename">بَوْح</strong> – جميع الحقوق محفوظة.
+        </p>
+      </div>
+    </footer>
+
+    <!-- Vendor JS Files -->
+    <script src="static/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        const navToggle = document.querySelector('.mobile-nav-toggle')
+        const navMenu = document.querySelector('.navmenu')
+      
+        if (navToggle && navMenu) {
+          navToggle.addEventListener('click', () => {
+            navMenu.classList.toggle('mobile-nav-active')
+          })
+        }
+      })
+    </script>
+    <script src="static/assets/js/main.js"></script>
+  </body>
+</html>

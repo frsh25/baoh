@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>المستخدمين | لوحة تحكم بوح</title>
+  
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+  <link href="{{ url_for('static', filename='assets/css/admain.css') }}" rel="stylesheet">
+  <link href="{{ url_for('static', filename='assets/css/users.css') }}" rel="stylesheet">
+</head>
+<body>
+
+  <header class="main-header">
+    <h1>📊 بوح</h1>
+    <div class="user-info">
+      <span>مرحباً، أدمن</span>
+    </div>
+  </header>
+
+  <div class="dashboard-container">
+    <aside class="sidebar">
+      <nav>
+        <ul class="sidebar-menu">
+          <li><a href="{{ url_for('admain') }}"><span>📊</span> نظرة عامة</a></li>
+          <li><a href="{{ url_for('users') }}" class="active"><span>👥</span> المستخدمون</a></li>
+          <li><a href="{{ url_for('settings') }}"><span>⚙️</span> الإعدادات</a></li>
+        </ul>
+      </nav>
+    </aside>
+
+    <main class="main-content">
+      <section class="section-header">
+        <h2>قائمة المستخدمين</h2>
+      </section>
+
+      <section class="posts-table">
+        <table>
+          <thead>
+            <tr>
+              <th>الاسم</th>
+              <th>البريد الإلكتروني</th>
+              <th>رقم الهاتف</th> <!-- إضافة عمود رقم الهاتف -->
+              <th>الدور</th>
+              <th>الإجراءات</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for user in users %}
+            <tr>
+              <td>{{ user.user_name }}</td>
+              <td>{{ user.user_email }}</td>
+              <td>{{ user.user_phone }}</td>              
+              <td>مستخدم</td>
+              <td>
+                <form action="{{ url_for('delete_user', user_id=user._id) }}" method="POST" style="display:inline;">
+                  <button type="submit" class="delete-btn" onclick="return confirm('هل أنت متأكد من حذف هذا المستخدم؟');">🗑 حذف</button>
+                </form>
+              </td>
+            </tr>
+            {% else %}
+            <tr>
+              <td colspan="5">لا يوجد مستخدمون لعرضهم.</td> <!-- تعديل عدد الأعمدة هنا -->
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </section>
+    </main>
+  </div>
+
+</body>
+</html>

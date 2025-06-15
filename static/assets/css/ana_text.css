@@ -1,0 +1,444 @@
+/* تنسيقات عامة */
+body {
+    font-family: 'Cairo', sans-serif;
+    direction: rtl;
+    background-color: #f2f5f9;
+    margin: 0;
+    padding: 0;
+    color: #333;
+  }
+  
+  .container {
+    max-width: 1200px;
+    margin: auto;
+    padding: 40px 20px;
+    
+  }
+  
+  /* Hero Section */
+ 
+  .hero h1 {
+    font-size: 3em;
+    font-weight: bold;
+    color: #004a75;
+    margin-bottom: 15px;
+    text-shadow: 1px 1px 4px rgba(0,0,0,0.1);
+    font-family: 'Cairo', sans-serif;
+    animation: fadeInDown 1s ease-in-out;
+  }
+  
+  .hero p {
+    font-size: 1.3em;
+    color: #333;
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.8;
+    font-family: 'Cairo', sans-serif;
+    animation: fadeIn 2s ease-in-out;
+  }
+  
+  /* تطبيق التأثير على h1 و p داخل hero */
+  .hero h1, .hero p {
+    animation: floatText 3s ease-in-out infinite, shineEffect 2s ease-in-out infinite;
+  }
+/* تأثير عند مرور الماوس على النص */
+.hero h1:hover, .hero p:hover {
+    animation: shineEffect 0.8s ease-in-out infinite, floatText 3s ease-in-out infinite;
+    text-shadow: 0 0 20px rgb(7, 7, 7), 0 0 30px rgba(18, 17, 17, 0.6);
+    color: #0f0e0e;
+  }
+    /* خلفية متحركة مع تدرج لوني */
+.hero {
+    background: linear-gradient(45deg, hwb(203 47% 20%), #a7c4d8);
+    background-size: 40% 40%;
+    animation: gradientBackground 10s ease infinite;
+    text-align: center;
+    padding: 80px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 1;
+  }
+  
+  /* حركة التدرج اللوني */
+  @keyframes gradientBackground {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+  
+  /* Text Input */
+  .text-input {
+    margin: 50px 0;
+  }
+ /* حقل النص */
+textarea {
+    width: 100%;
+    min-height: 200px;
+    font-size: 1.2em;
+    padding: 15px;
+    border: 2px solid #7096D1; /* حدود بزاوية دائرية */
+    border-radius: 15px;
+    resize: vertical;
+    outline: none;
+    transition: all 0.3s ease; /* تأثير عند التركيز */
+    background: linear-gradient(to right, #e3f2fd, #ffffff);
+    box-shadow: 0 0 8px rgba(0, 116, 183, 0.5); /* ظل ناعم */
+    color: #333;
+    font-family: 'Cairo', sans-serif;
+  }
+  
+  /* تأثير عند التركيز */
+  textarea:focus {
+    border-color: #d15a6c; /* تغيير لون الحدود عند التركيز */
+    box-shadow: 0 0 15px rgba(255, 126, 95, 0.7); /* إضافة ظل عند التركيز */
+    background: linear-gradient(to right, #ffffff, #f9f9f9); /* تغيير الخلفية */
+    color: #004a75;
+  }
+  
+  /* تأثير حركة النص داخل حقل النص */
+textarea:focus {
+    animation: bounceEffect 0.5s ease-in-out;
+  }
+  
+  /* حركة اهتزاز ناعمة */
+  @keyframes bounceEffect {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.02);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+  
+  .word-count {
+    text-align: left;
+    color: #666;
+    margin-top: 10px;
+    font-size: 0.9em;
+  }
+  
+  /* زر التحليل */
+  .analyze-btn {
+    display: block;
+    margin: 20px auto;
+    background-color: #7096D1;
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    font-size: 1em;
+    border-radius: 20px;
+    cursor: pointer;
+  }
+  
+  /* قسم النتائج */
+  .results {
+    background-color: white;
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    margin-bottom: 40px;
+  }
+  
+  .results h2 {
+    margin-bottom: 20px;
+    color: #004a75;
+  }
+  
+  .chart, .summary, .keywords {
+    margin-top: 25px;
+  }
+  /* قسم المميزات */
+.features {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 100px;
+  margin-top: 50px;
+}
+
+.feature {
+  background-color: #fff;
+  border-radius: 15px;
+  padding: 25px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* إضافة تأثير الحركة */
+}
+
+/* حركة عند التمرير على العنصر */
+.feature:hover {
+  transform: translateY(-10px); /* رفع العنصر للأعلى عند التمرير */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* زيادة الظل عند التمرير */
+}
+
+.feature h3 {
+  margin-bottom: 10px;
+  color: #7096D1;
+}
+
+  /* خطوات الاستخدام */
+  .steps {
+    margin-top: 60px;
+    background-color: #eaf6ff;
+    padding: 30px;
+    border-radius: 20px;
+  }
+  
+  .steps h2 {
+    margin-bottom: 20px;
+    color: #7096D1;
+  }
+  
+  .step {
+    margin-bottom: 15px;
+    padding-right: 15px;
+    border-right: 4px solid #7096D1;
+  }
+  
+  /* قسم الأسئلة الشائعة */
+  .faq {
+    background-color: #fff;
+    margin-top: 60px;
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 1px 6px rgba(0,0,0,0.08);
+  }
+  
+  .faq h2 {
+    margin-bottom: 25px;
+    color: #000000;
+  }
+  
+  .faq-item {
+    margin-bottom: 20px;
+  }
+  
+  .faq-question {
+    font-weight: bold;
+    margin-bottom: 8px;
+    color: #7096D1;
+  }
+  
+  .faq-answer {
+    color: #444;
+    line-height: 1.6;
+  }
+  
+  /* Footer */
+  footer {
+    background-color: #004a75;
+    color: white;
+    text-align: center;
+    padding: 20px;
+    margin-top: 60px;
+    font-size: 0.9em;
+  }
+  .hero h1 {
+    font-size: 3em;
+    font-weight: bold;
+    color: #004a75;
+    text-shadow: 1px 1px 4px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+    font-family: 'Cairo', sans-serif;
+    animation: fadeInDown 1s ease-in-out;
+  }
+  
+  .hero p {
+    font-size: 1.3em;
+    color: #333;
+    max-width: 600px;
+    margin: auto;
+    line-height: 1.8;
+    font-family: 'Cairo', sans-serif;
+    animation: fadeIn 2s ease-in-out;
+  }
+  
+  /* Animation Effects */
+  @keyframes fadeInDown {
+    from {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  /* حركة صعود ونزول ناعمة */
+@keyframes floatText {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0); }
+  }
+  
+  /* وميض ولمعة ناعمة */
+  @keyframes shineEffect {
+    0%, 100% { opacity: 1; text-shadow: 0 0 10px rgba(255,255,255,0.8); }
+    50% { opacity: 0.85; text-shadow: 0 0 20px rgba(255,255,255,1); }
+  }
+  
+  
+    body {
+      font-family: 'Cairo', sans-serif;
+      background-color: #f4fafd;
+      margin: 0;
+      padding: 2rem;
+      direction: rtl;
+    }
+
+    .analysis-result {
+      background: white;
+      padding: 2rem;
+      border-radius: 1rem;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.05);
+      margin-bottom: 2rem;
+    }
+
+    .section-title {
+      color: #7096D1;
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+
+    .result-container {
+      display: flex;
+      justify-content: space-between;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .column {
+      flex: 1;
+      min-width: 220px;
+    }
+
+    .emoji-block {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .emoji-item {
+      text-align: center;
+    }
+
+    .emoji-item span {
+      font-size: 2rem;
+    }
+
+    .chart-box canvas {
+      max-width: 100%;
+    }
+
+    .summary-mini {
+      background-color: #f0f7f9;
+      padding: 1rem;
+      border-radius: 0.75rem;
+      text-align: center;
+      box-shadow: 0 0 5px rgba(0,0,0,0.05);
+    }
+
+    .summary-mini h3 {
+      margin-bottom: 1rem;
+      color: #010707;
+    }
+
+    .faq-section {
+      background-color: #fff;
+      border-radius: 1rem;
+      padding: 2rem;
+      box-shadow: 0 0 10px rgba(0,0,0,0.05);
+      margin-bottom: 2rem;
+    }
+
+    .faq-item {
+      margin-bottom: 1.5rem;
+    }
+
+    .faq-question {
+      font-weight: bold;
+      color: #7096D1;
+      margin-bottom: 0.5rem;
+    }
+
+    .faq-answer {
+      color: #444;
+    }
+    .faq-answer {
+      display: none;
+      margin-top: 10px;
+      padding: 10px;
+      background-color: #f9f9f9;
+      border-left: 2px solid #5a5a5a;
+    }
+  
+    .faq-question {
+      cursor: pointer;
+      margin: 10px 0;
+      font-weight: bold;
+    }
+    footer {
+      text-align: center;
+      padding: 1rem;
+      color: #666;
+      background-color: #e0f2f1;
+      border-radius: 1rem;
+    }
+   /* توسيط كامل للزر مع القائمة */
+   .export-container {
+    position: relative;
+    direction: rtl;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+  }
+  
+  
+  
+  .export-options {
+    display: none; /* مخفية في البداية */
+    flex-direction: column;
+    align-items: center;
+    margin-top: 5px;
+    gap: 3px;
+    list-style: none;
+    padding: 0;
+  }
+  
+  .export-options li a {
+    font-size: 10px;
+    padding: 5px 10px;
+    background-color: #f5f5f5;
+    border-radius: 5px;
+    text-decoration: none;
+    color: #5886cb;
+    transition: background-color 0.3s;
+  }
+  
+  .export-options li a:hover {
+    background-color: #ddd;
+  }
+  
